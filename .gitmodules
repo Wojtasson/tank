@@ -7,3 +7,6 @@
 [submodule "Libraries/Adafruit_SSD1306"]
 	path = Libraries/Adafruit_SSD1306
 	url = https://github.com/adafruit/Adafruit_SSD1306.git
+[submodule "Libraries/L298N"]
+	path = Libraries/L298N
+	url = https://github.com/AndreaLombardo/L298N.git
