@@ -1,0 +1,9 @@
+[submodule "Libraries/RF24"]
+	path = Libraries/RF24
+	url = https://github.com/nRF24/RF24.git
+[submodule "Libraries/Adafruit-GFX-Library"]
+	path = Libraries/Adafruit-GFX-Library
+	url = https://github.com/adafruit/Adafruit-GFX-Library.git
+[submodule "Libraries/Adafruit_SSD1306"]
+	path = Libraries/Adafruit_SSD1306
+	url = https://github.com/adafruit/Adafruit_SSD1306.git
