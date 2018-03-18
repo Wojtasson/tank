@@ -9,8 +9,8 @@ byte addresses[][6] = {"TR_001", "RC_001"};
 
 int track_left_pin = 2;
 int track_right_pin = 3;
-int gun_horizon_pin = 1;
-int gun_vertical_pin = 2;
+int gun_horizon_pin = 0;
+int gun_vertical_pin = 1;
 int fire_button_pin = 7;
 int laser_button_pin = 8;
 
@@ -102,27 +102,44 @@ delay(10);
 
 void read_track_values()
 {
-   inst.track_left = map(analogRead(track_left_pin), 0, 1023, -100, 100);
+
+   float x = map(analogRead(track_left_pin),0,1020,-100,100); 
+   x = x * -1; 
+   float y = map(analogRead(track_right_pin),0,1020,-100,100);  
+
+  float v = (100-abs(x)) * (y/100) + y;
+  float w = (100-abs(y)) * (x/100) + x;
+
+   char l = ((v+w)/2)+1;
+   char r = ((v-w)/2)+1;
+
+    if (l > 100){l = 100;}
+    if (r > 100){r = 100;}
+    
+    if (l <= -99){l = -100;}
+    if (r <= -99){r = -100;}
+       
+    inst.track_left = l;
+    inst.track_right = r;  
    data_to_send[track_left] = inst.track_left;
-   inst.track_right = map(analogRead(track_right_pin), 0, 1023, -100, 100);
    data_to_send[track_right] = inst.track_right;
 }
 
 void read_gun_values()
 {
-   inst.gun_horizon = map(analogRead(gun_horizon_pin), 0, 1023, 0, 180);
+   inst.gun_horizon = map(analogRead(gun_horizon_pin), 0, 1020, 0, 180);
+   inst.gun_vertical = map(analogRead(gun_vertical_pin), 0, 1020, 0, 180);
+   
    data_to_send[gun_horizon] = inst.gun_horizon;
-   inst.gun_vertical = map(analogRead(gun_vertical_pin), 0, 1023, 0, 180);
    data_to_send[gun_vertical] = inst.gun_vertical;
 }
 
 void set_display()
 {
     OLED.clearDisplay();
-    OLED.setCursor(0, 0);
-    OLED.println(inst.track_left, DEC);
-    OLED.setCursor(0, 10);
-    OLED.println(inst.track_right, DEC); 
-    OLED.drawCircle(64,16,8,WHITE);
+    OLED.setCursor(0, 0); OLED.print(inst.track_left, DEC);
+    OLED.setCursor(100, 0); OLED.print(inst.track_right, DEC); 
+    OLED.setCursor(0, 16); OLED.println(inst.gun_horizon, DEC);
+    OLED.setCursor(100, 16); OLED.println(inst.gun_vertical, DEC);   
     OLED.display(); 
   }
