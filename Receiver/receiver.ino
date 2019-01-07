@@ -67,7 +67,7 @@ void setup()   {
   radio.begin();
   radio.openWritingPipe(addresses[0]); // 00002
   radio.openReadingPipe(1, addresses[1]); // 00001
-  radio.setPALevel(RF24_PA_MIN);
+  radio.setPALevel(RF24_PA_MAX);
   radio.stopListening();
   OLED.begin();
   OLED.clearDisplay();
